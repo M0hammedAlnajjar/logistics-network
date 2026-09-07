@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.Address;
 import com.codelegends.logistics_network.Entities.Customer;
 import com.codelegends.logistics_network.Entities.ServiceZone;
@@ -42,7 +44,7 @@ public class AddressService {
     public Address getAddressById(Long id) {
         validateId(id);
         return addressRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active address not found with ID: " + id));
     }
 
@@ -87,7 +89,7 @@ public class AddressService {
             throw new IllegalArgumentException("Customer ID is required");
         }
         return customerRepository.findByIdAndIsActiveTrue(customer.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active customer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active customer not found"));
     }
 
     private ServiceZone getOptionalServiceZone(ServiceZone serviceZone) {
@@ -98,7 +100,7 @@ public class AddressService {
             throw new IllegalArgumentException("Service zone ID is required");
         }
         return serviceZoneRepository.findByIdAndIsActiveTrue(serviceZone.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active service zone not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active service zone not found"));
     }
 
     private void validateId(Long id) {
