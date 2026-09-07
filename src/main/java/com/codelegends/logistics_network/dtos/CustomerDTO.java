@@ -1,8 +1,11 @@
 package com.codelegends.logistics_network.dtos;
 
+import com.codelegends.logistics_network.enums.CustomerType;
+
 import com.codelegends.logistics_network.Entities.Customer;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,9 +35,8 @@ public class CustomerDTO {
     @Size(max = 20, message = "Customer phone number must not exceed 20 characters")
     private String phoneNumber;
 
-    @NotBlank(message = "Customer type is required")
-    @Size(max = 50, message = "Customer type must not exceed 50 characters")
-    private String type;
+    @NotNull(message = "Customer type is required")
+    private CustomerType type;
 
     public static CustomerDTO convertToDTO(Customer entity) {
         if (entity == null) return null;
