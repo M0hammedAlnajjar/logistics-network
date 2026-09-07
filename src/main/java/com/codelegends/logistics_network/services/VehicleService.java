@@ -74,14 +74,14 @@ public class VehicleService {
         if (vehicle.getPlateNumber() == null || vehicle.getPlateNumber().isBlank()) {
             throw new IllegalArgumentException("Vehicle plate number is required");
         }
-        if (vehicle.getType() == null || vehicle.getType().isBlank()) {
+        if (vehicle.getType() == null) {
             throw new IllegalArgumentException("Vehicle type is required");
         }
         if (vehicle.getCapacityKg() == null
                 || vehicle.getCapacityKg().compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Vehicle capacity must be greater than zero");
         }
-        if (vehicle.getStatus() == null || vehicle.getStatus().isBlank()) {
+        if (vehicle.getStatus() == null) {
             throw new IllegalArgumentException("Vehicle status is required");
         }
     }
