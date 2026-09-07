@@ -65,7 +65,7 @@ public class StaffService {
         if (staff.getName() == null || staff.getName().isBlank()) {
             throw new IllegalArgumentException("Staff name is required");
         }
-        if (staff.getRole() == null || staff.getRole().isBlank()) {
+        if (staff.getRole() == null) {
             throw new IllegalArgumentException("Staff role is required");
         }
         if (staff.getPhoneNumber() == null || staff.getPhoneNumber().isBlank()) {
