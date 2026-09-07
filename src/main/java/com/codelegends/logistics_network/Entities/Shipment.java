@@ -1,8 +1,12 @@
 package com.codelegends.logistics_network.Entities;
 
+import com.codelegends.logistics_network.enums.ShipmentStatus;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -23,8 +27,9 @@ public class Shipment extends BaseClass {
     @Column(nullable = false)
     private LocalDate shipmentDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private String status;
+    private ShipmentStatus status;
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal totalWeight;
