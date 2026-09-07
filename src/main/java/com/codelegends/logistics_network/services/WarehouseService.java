@@ -4,6 +4,8 @@ import com.codelegends.logistics_network.Entities.Warehouse;
 import com.codelegends.logistics_network.repositories.WarehouseRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WarehouseService {
 
@@ -34,5 +36,9 @@ public class WarehouseService {
         warehouse.setActive(true);
 
         return warehouseRepository.save(warehouse);
+    }
+
+    public List<Warehouse> getAllWarehouses() {
+        return warehouseRepository.findAllByIsActiveTrue();
     }
 }
