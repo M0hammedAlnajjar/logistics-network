@@ -22,6 +22,24 @@
 - [ ] Rotate the exposed MySQL password
 - [ ] Consider removing the credential from Git history before final submission
 
+## Enum Type Safety
+
+- [x] ShipmentStatus
+- [x] VehicleStatus
+- [x] DriverStatus
+- [x] RouteStatus
+- [x] DeliveryStopStatus
+- [x] TrackingStatus
+- [x] InvoiceStatus
+- [x] CustomerType
+- [x] VehicleType
+- [x] StaffRole
+- [x] Entity enums use EnumType.STRING
+- [x] DTOs use enum types
+- [x] Business logic compares enum constants
+- [x] Invalid enum JSON is handled as 400 Bad Request
+- [x] Product category remains a flexible String
+
 ## Phase 1 - Entities and Relationships
 
 - [x] 16 required entities created
