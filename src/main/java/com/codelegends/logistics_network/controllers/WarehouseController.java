@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.Warehouse;
+import com.codelegends.logistics_network.dtos.WarehouseDTO;
 import com.codelegends.logistics_network.services.WarehouseService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class WarehouseController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Warehouse create(@Valid @RequestBody Warehouse warehouse) {
-        return warehouseService.createWarehouse(warehouse);
+    public WarehouseDTO create(@Valid @RequestBody WarehouseDTO warehouseDTO) {
+        return WarehouseDTO.convertToDTO(warehouseService.createWarehouse(warehouseDTO.toEntity()));
     }
 
     @GetMapping
-    public List<Warehouse> getAll() {
-        return warehouseService.getAllWarehouses();
+    public List<WarehouseDTO> getAll() {
+        return WarehouseDTO.convertToDTO(warehouseService.getAllWarehouses());
     }
 
     @GetMapping("/{id}")
-    public Warehouse getById(@PathVariable Long id) {
-        return warehouseService.getWarehouseById(id);
+    public WarehouseDTO getById(@PathVariable Long id) {
+        return WarehouseDTO.convertToDTO(warehouseService.getWarehouseById(id));
     }
 
     @PutMapping("/{id}")
-    public Warehouse update(
+    public WarehouseDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody Warehouse warehouse) {
-        return warehouseService.updateWarehouse(id, warehouse);
+            @Valid @RequestBody WarehouseDTO warehouseDTO) {
+        return WarehouseDTO.convertToDTO(
+                warehouseService.updateWarehouse(id, warehouseDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
