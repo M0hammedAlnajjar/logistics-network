@@ -23,7 +23,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     @Query("""
             SELECT v FROM Vehicle v
             WHERE v.isActive = true
-              AND LOWER(v.status) = 'available'
+              AND v.status = com.codelegends.logistics_network.enums.VehicleStatus.AVAILABLE
             """)
     List<Vehicle> findCurrentlyAvailable();
 
