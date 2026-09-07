@@ -5,6 +5,7 @@ import com.codelegends.logistics_network.dtos.operations.*;
 import com.codelegends.logistics_network.dtos.stats.CarrierStatsDTO;
 import com.codelegends.logistics_network.dtos.stats.CustomerStatsDTO;
 import com.codelegends.logistics_network.dtos.stats.WarehouseStatsDTO;
+import com.codelegends.logistics_network.enums.ShipmentStatus;
 import com.codelegends.logistics_network.services.LogisticsOperationsService;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -93,7 +94,7 @@ public class LogisticsOperationsController {
 
     @GetMapping("/queries/shipments/status")
     public List<ShipmentDTO> getShipmentsByStatus(
-            @RequestParam String status) {
+            @RequestParam ShipmentStatus status) {
         return ShipmentDTO.convertToDTO(
                 operationsService.getShipmentsByStatus(status));
     }
