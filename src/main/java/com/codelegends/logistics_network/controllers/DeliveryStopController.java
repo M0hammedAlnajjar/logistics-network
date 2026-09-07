@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.DeliveryStop;
+import com.codelegends.logistics_network.dtos.DeliveryStopDTO;
 import com.codelegends.logistics_network.services.DeliveryStopService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class DeliveryStopController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DeliveryStop create(@Valid @RequestBody DeliveryStop deliveryStop) {
-        return deliveryStopService.createDeliveryStop(deliveryStop);
+    public DeliveryStopDTO create(@Valid @RequestBody DeliveryStopDTO deliveryStopDTO) {
+        return DeliveryStopDTO.convertToDTO(deliveryStopService.createDeliveryStop(deliveryStopDTO.toEntity()));
     }
 
     @GetMapping
-    public List<DeliveryStop> getAll() {
-        return deliveryStopService.getAllDeliveryStops();
+    public List<DeliveryStopDTO> getAll() {
+        return DeliveryStopDTO.convertToDTO(deliveryStopService.getAllDeliveryStops());
     }
 
     @GetMapping("/{id}")
-    public DeliveryStop getById(@PathVariable Long id) {
-        return deliveryStopService.getDeliveryStopById(id);
+    public DeliveryStopDTO getById(@PathVariable Long id) {
+        return DeliveryStopDTO.convertToDTO(deliveryStopService.getDeliveryStopById(id));
     }
 
     @PutMapping("/{id}")
-    public DeliveryStop update(
+    public DeliveryStopDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody DeliveryStop deliveryStop) {
-        return deliveryStopService.updateDeliveryStop(id, deliveryStop);
+            @Valid @RequestBody DeliveryStopDTO deliveryStopDTO) {
+        return DeliveryStopDTO.convertToDTO(
+                deliveryStopService.updateDeliveryStop(id, deliveryStopDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
