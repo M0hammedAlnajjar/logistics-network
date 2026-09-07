@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.Route;
+import com.codelegends.logistics_network.dtos.RouteDTO;
 import com.codelegends.logistics_network.services.RouteService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class RouteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Route create(@Valid @RequestBody Route route) {
-        return routeService.createRoute(route);
+    public RouteDTO create(@Valid @RequestBody RouteDTO routeDTO) {
+        return RouteDTO.convertToDTO(routeService.createRoute(routeDTO.toEntity()));
     }
 
     @GetMapping
-    public List<Route> getAll() {
-        return routeService.getAllRoutes();
+    public List<RouteDTO> getAll() {
+        return RouteDTO.convertToDTO(routeService.getAllRoutes());
     }
 
     @GetMapping("/{id}")
-    public Route getById(@PathVariable Long id) {
-        return routeService.getRouteById(id);
+    public RouteDTO getById(@PathVariable Long id) {
+        return RouteDTO.convertToDTO(routeService.getRouteById(id));
     }
 
     @PutMapping("/{id}")
-    public Route update(
+    public RouteDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody Route route) {
-        return routeService.updateRoute(id, route);
+            @Valid @RequestBody RouteDTO routeDTO) {
+        return RouteDTO.convertToDTO(
+                routeService.updateRoute(id, routeDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
