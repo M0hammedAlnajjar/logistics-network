@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.math.BigDecimal;
-
+@Getter
+@Setter
 @Entity
 public class Product extends BaseClass {
 
@@ -28,4 +31,8 @@ public class Product extends BaseClass {
     @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<InventoryItem> inventoryItems = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    private List<ShipmentItem> shipmentItems = new ArrayList<>();
 }
