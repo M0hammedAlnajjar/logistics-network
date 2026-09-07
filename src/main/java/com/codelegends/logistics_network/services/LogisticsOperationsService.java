@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.*;
 import com.codelegends.logistics_network.dtos.operations.*;
 import com.codelegends.logistics_network.dtos.stats.CarrierStatsDTO;
@@ -95,7 +97,7 @@ public class LogisticsOperationsService {
             InventoryItem inventoryItem = inventoryItemRepository
                     .findActiveByWarehouseAndProduct(
                             warehouse.getId(), product.getId())
-                    .orElseThrow(() -> new IllegalArgumentException(
+                    .orElseThrow(() -> new ResourceNotFoundException(
                             "Product is not stocked in the selected warehouse"));
 
             if (inventoryItem.getQuantity() < entry.getValue()) {
@@ -291,7 +293,7 @@ public class LogisticsOperationsService {
     public DeliveryStop completeDeliveryStop(Long stopId) {
         DeliveryStop stop = deliveryStopRepository
                 .findByIdAndIsActiveTrue(stopId)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active delivery stop not found"));
         stop.setStatus("COMPLETED");
         stop = deliveryStopRepository.save(stop);
@@ -433,56 +435,56 @@ public class LogisticsOperationsService {
     private Warehouse getWarehouse(Long id) {
         validateId(id, "Warehouse");
         return warehouseRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active warehouse not found"));
     }
 
     private Customer getCustomer(Long id) {
         validateId(id, "Customer");
         return customerRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active customer not found"));
     }
 
     private Product getProduct(Long id) {
         validateId(id, "Product");
         return productRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active product not found"));
     }
 
     private Shipment getShipment(Long id) {
         validateId(id, "Shipment");
         return shipmentRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active shipment not found"));
     }
 
     private Carrier getCarrier(Long id) {
         validateId(id, "Carrier");
         return carrierRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active carrier not found"));
     }
 
     private Vehicle getVehicle(Long id) {
         validateId(id, "Vehicle");
         return vehicleRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active vehicle not found"));
     }
 
     private Driver getDriver(Long id) {
         validateId(id, "Driver");
         return driverRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active driver not found"));
     }
 
     private Route getRoute(Long id) {
         validateId(id, "Route");
         return routeRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active route not found"));
     }
 
