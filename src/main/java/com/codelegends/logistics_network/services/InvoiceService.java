@@ -74,7 +74,7 @@ public class InvoiceService {
                 || invoice.getAmount().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Invoice amount cannot be negative");
         }
-        if (invoice.getStatus() == null || invoice.getStatus().isBlank()) {
+        if (invoice.getStatus() == null) {
             throw new IllegalArgumentException("Invoice status is required");
         }
         if (invoice.getIssuedDate() == null) {
