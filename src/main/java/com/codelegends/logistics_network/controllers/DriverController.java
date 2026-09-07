@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.Driver;
+import com.codelegends.logistics_network.dtos.DriverDTO;
 import com.codelegends.logistics_network.services.DriverService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class DriverController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Driver create(@Valid @RequestBody Driver driver) {
-        return driverService.createDriver(driver);
+    public DriverDTO create(@Valid @RequestBody DriverDTO driverDTO) {
+        return DriverDTO.convertToDTO(driverService.createDriver(driverDTO.toEntity()));
     }
 
     @GetMapping
-    public List<Driver> getAll() {
-        return driverService.getAllDrivers();
+    public List<DriverDTO> getAll() {
+        return DriverDTO.convertToDTO(driverService.getAllDrivers());
     }
 
     @GetMapping("/{id}")
-    public Driver getById(@PathVariable Long id) {
-        return driverService.getDriverById(id);
+    public DriverDTO getById(@PathVariable Long id) {
+        return DriverDTO.convertToDTO(driverService.getDriverById(id));
     }
 
     @PutMapping("/{id}")
-    public Driver update(
+    public DriverDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody Driver driver) {
-        return driverService.updateDriver(id, driver);
+            @Valid @RequestBody DriverDTO driverDTO) {
+        return DriverDTO.convertToDTO(
+                driverService.updateDriver(id, driverDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
