@@ -79,7 +79,7 @@ public class RouteService {
         if (route.getDestination() == null || route.getDestination().isBlank()) {
             throw new IllegalArgumentException("Route destination is required");
         }
-        if (route.getStatus() == null || route.getStatus().isBlank()) {
+        if (route.getStatus() == null) {
             throw new IllegalArgumentException("Route status is required");
         }
     }
