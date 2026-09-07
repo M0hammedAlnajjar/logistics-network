@@ -1,5 +1,8 @@
 package com.codelegends.logistics_network.dtos;
 
+import com.codelegends.logistics_network.enums.VehicleStatus;
+import com.codelegends.logistics_network.enums.VehicleType;
+
 import com.codelegends.logistics_network.Entities.Carrier;
 import com.codelegends.logistics_network.Entities.Vehicle;
 import jakarta.validation.constraints.NotBlank;
@@ -26,17 +29,15 @@ public class VehicleDTO {
     @Size(max = 30, message = "Vehicle plate number must not exceed 30 characters")
     private String plateNumber;
 
-    @NotBlank(message = "Vehicle type is required")
-    @Size(max = 50, message = "Vehicle type must not exceed 50 characters")
-    private String type;
+    @NotNull(message = "Vehicle type is required")
+    private VehicleType type;
 
     @NotNull(message = "Vehicle capacity is required")
     @Positive(message = "Vehicle capacity must be greater than zero")
     private BigDecimal capacityKg;
 
-    @NotBlank(message = "Vehicle status is required")
-    @Size(max = 50, message = "Vehicle status must not exceed 50 characters")
-    private String status;
+    @NotNull(message = "Vehicle status is required")
+    private VehicleStatus status;
 
     @NotNull(message = "Carrier ID is required")
     @Positive(message = "Carrier ID must be greater than zero")
