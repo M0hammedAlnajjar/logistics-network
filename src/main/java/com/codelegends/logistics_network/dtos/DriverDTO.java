@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.dtos;
 
+import com.codelegends.logistics_network.enums.DriverStatus;
+
 import com.codelegends.logistics_network.Entities.Carrier;
 import com.codelegends.logistics_network.Entities.Driver;
 import jakarta.validation.constraints.NotBlank;
@@ -33,9 +35,8 @@ public class DriverDTO {
     @Size(max = 20, message = "Driver phone number must not exceed 20 characters")
     private String phoneNumber;
 
-    @NotBlank(message = "Driver status is required")
-    @Size(max = 50, message = "Driver status must not exceed 50 characters")
-    private String status;
+    @NotNull(message = "Driver status is required")
+    private DriverStatus status;
 
     @NotNull(message = "Carrier ID is required")
     @Positive(message = "Carrier ID must be greater than zero")
