@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.Staff;
+import com.codelegends.logistics_network.dtos.StaffDTO;
 import com.codelegends.logistics_network.services.StaffService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class StaffController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Staff create(@Valid @RequestBody Staff staff) {
-        return staffService.createStaff(staff);
+    public StaffDTO create(@Valid @RequestBody StaffDTO staffDTO) {
+        return StaffDTO.convertToDTO(staffService.createStaff(staffDTO.toEntity()));
     }
 
     @GetMapping
-    public List<Staff> getAll() {
-        return staffService.getAllStaff();
+    public List<StaffDTO> getAll() {
+        return StaffDTO.convertToDTO(staffService.getAllStaff());
     }
 
     @GetMapping("/{id}")
-    public Staff getById(@PathVariable Long id) {
-        return staffService.getStaffById(id);
+    public StaffDTO getById(@PathVariable Long id) {
+        return StaffDTO.convertToDTO(staffService.getStaffById(id));
     }
 
     @PutMapping("/{id}")
-    public Staff update(
+    public StaffDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody Staff staff) {
-        return staffService.updateStaff(id, staff);
+            @Valid @RequestBody StaffDTO staffDTO) {
+        return StaffDTO.convertToDTO(
+                staffService.updateStaff(id, staffDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
