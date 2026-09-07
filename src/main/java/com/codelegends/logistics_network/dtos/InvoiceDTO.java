@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.dtos;
 
+import com.codelegends.logistics_network.enums.InvoiceStatus;
+
 import com.codelegends.logistics_network.Entities.Customer;
 import com.codelegends.logistics_network.Entities.Invoice;
 import com.codelegends.logistics_network.Entities.Shipment;
@@ -30,9 +32,8 @@ public class InvoiceDTO {
     @PositiveOrZero(message = "Invoice amount cannot be negative")
     private BigDecimal amount;
 
-    @NotBlank(message = "Invoice status is required")
-    @Size(max = 50, message = "Invoice status must not exceed 50 characters")
-    private String status;
+    @NotNull(message = "Invoice status is required")
+    private InvoiceStatus status;
 
     @NotNull(message = "Invoice issued date is required")
     @PastOrPresent(message = "Invoice issued date cannot be in the future")
