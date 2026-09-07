@@ -52,4 +52,30 @@ public class WarehouseService {
                         "Active warehouse not found with ID: " + id
                 ));
     }
+
+    public Warehouse updateWarehouse(Long id, Warehouse updatedWarehouse) {
+        if (updatedWarehouse == null) {
+            throw new IllegalArgumentException("Warehouse cannot be null");
+        }
+
+        if (updatedWarehouse.getName() == null || updatedWarehouse.getName().isBlank()) {
+            throw new IllegalArgumentException("Warehouse name is required");
+        }
+
+        if (updatedWarehouse.getLocation() == null || updatedWarehouse.getLocation().isBlank()) {
+            throw new IllegalArgumentException("Warehouse location is required");
+        }
+
+        if (updatedWarehouse.getCapacity() == null || updatedWarehouse.getCapacity() <= 0) {
+            throw new IllegalArgumentException("Warehouse capacity must be greater than zero");
+        }
+
+        Warehouse warehouse = getWarehouseById(id);
+
+        warehouse.setName(updatedWarehouse.getName());
+        warehouse.setLocation(updatedWarehouse.getLocation());
+        warehouse.setCapacity(updatedWarehouse.getCapacity());
+
+        return warehouseRepository.save(warehouse);
+    }
 }
