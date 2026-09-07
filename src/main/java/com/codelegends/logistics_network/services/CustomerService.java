@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.Customer;
 import com.codelegends.logistics_network.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,7 @@ public class CustomerService {
     public Customer getCustomerById(Long id) {
         validateId(id);
         return customerRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active customer not found with ID: " + id));
     }
 
