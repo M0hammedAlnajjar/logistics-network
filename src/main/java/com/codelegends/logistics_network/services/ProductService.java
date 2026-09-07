@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.Product;
 import com.codelegends.logistics_network.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,7 @@ public class ProductService {
     public Product getProductById(Long id) {
         validateId(id);
         return productRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active product not found with ID: " + id));
     }
 
