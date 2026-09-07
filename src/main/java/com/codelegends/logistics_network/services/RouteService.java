@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.Driver;
 import com.codelegends.logistics_network.Entities.Route;
 import com.codelegends.logistics_network.Entities.Vehicle;
@@ -42,7 +44,7 @@ public class RouteService {
     public Route getRouteById(Long id) {
         validateId(id);
         return routeRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active route not found with ID: " + id));
     }
 
@@ -87,7 +89,7 @@ public class RouteService {
             throw new IllegalArgumentException("Vehicle ID is required");
         }
         return vehicleRepository.findByIdAndIsActiveTrue(vehicle.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active vehicle not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active vehicle not found"));
     }
 
     private Driver getDriver(Driver driver) {
@@ -95,7 +97,7 @@ public class RouteService {
             throw new IllegalArgumentException("Driver ID is required");
         }
         return driverRepository.findByIdAndIsActiveTrue(driver.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active driver not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active driver not found"));
     }
 
     private void validateId(Long id) {
