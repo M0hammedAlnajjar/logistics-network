@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.dtos;
 
+import com.codelegends.logistics_network.enums.StaffRole;
+
 import com.codelegends.logistics_network.Entities.Staff;
 import com.codelegends.logistics_network.Entities.Warehouse;
 import jakarta.validation.constraints.NotBlank;
@@ -25,9 +27,8 @@ public class StaffDTO {
     @Size(max = 100, message = "Staff name must not exceed 100 characters")
     private String name;
 
-    @NotBlank(message = "Staff role is required")
-    @Size(max = 50, message = "Staff role must not exceed 50 characters")
-    private String role;
+    @NotNull(message = "Staff role is required")
+    private StaffRole role;
 
     @NotBlank(message = "Staff phone number is required")
     @Size(max = 20, message = "Staff phone number must not exceed 20 characters")
