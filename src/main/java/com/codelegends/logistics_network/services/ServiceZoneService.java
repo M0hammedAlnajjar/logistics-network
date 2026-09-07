@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.ServiceZone;
 import com.codelegends.logistics_network.repositories.ServiceZoneRepository;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,7 @@ public class ServiceZoneService {
     public ServiceZone getServiceZoneById(Long id) {
         validateId(id);
         return serviceZoneRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active service zone not found with ID: " + id));
     }
 
