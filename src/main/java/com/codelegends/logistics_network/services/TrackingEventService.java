@@ -69,7 +69,7 @@ public class TrackingEventService {
         if (event.getLocation() == null || event.getLocation().isBlank()) {
             throw new IllegalArgumentException("Tracking event location is required");
         }
-        if (event.getStatus() == null || event.getStatus().isBlank()) {
+        if (event.getStatus() == null) {
             throw new IllegalArgumentException("Tracking event status is required");
         }
     }
