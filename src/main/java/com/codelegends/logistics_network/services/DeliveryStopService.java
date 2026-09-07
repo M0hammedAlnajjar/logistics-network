@@ -76,7 +76,7 @@ public class DeliveryStopService {
         if (stop.getAddress() == null || stop.getAddress().isBlank()) {
             throw new IllegalArgumentException("Delivery stop address is required");
         }
-        if (stop.getStatus() == null || stop.getStatus().isBlank()) {
+        if (stop.getStatus() == null) {
             throw new IllegalArgumentException("Delivery stop status is required");
         }
         if (stop.getEta() == null) {
