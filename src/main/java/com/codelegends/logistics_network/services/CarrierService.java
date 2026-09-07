@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.Carrier;
 import com.codelegends.logistics_network.repositories.CarrierRepository;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,7 @@ public class CarrierService {
     public Carrier getCarrierById(Long id) {
         validateId(id);
         return carrierRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active carrier not found with ID: " + id));
     }
 
