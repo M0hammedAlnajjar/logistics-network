@@ -79,7 +79,7 @@ public class DriverService {
         if (driver.getPhoneNumber() == null || driver.getPhoneNumber().isBlank()) {
             throw new IllegalArgumentException("Driver phone number is required");
         }
-        if (driver.getStatus() == null || driver.getStatus().isBlank()) {
+        if (driver.getStatus() == null) {
             throw new IllegalArgumentException("Driver status is required");
         }
     }
