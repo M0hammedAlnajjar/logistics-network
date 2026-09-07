@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.Carrier;
 import com.codelegends.logistics_network.Entities.Customer;
 import com.codelegends.logistics_network.Entities.Shipment;
@@ -49,7 +51,7 @@ public class ShipmentService {
     public Shipment getShipmentById(Long id) {
         validateId(id);
         return shipmentRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active shipment not found with ID: " + id));
     }
 
@@ -92,7 +94,7 @@ public class ShipmentService {
             throw new IllegalArgumentException("Warehouse ID is required");
         }
         return warehouseRepository.findByIdAndIsActiveTrue(warehouse.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active warehouse not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active warehouse not found"));
     }
 
     private Customer getCustomer(Customer customer) {
@@ -100,7 +102,7 @@ public class ShipmentService {
             throw new IllegalArgumentException("Customer ID is required");
         }
         return customerRepository.findByIdAndIsActiveTrue(customer.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active customer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active customer not found"));
     }
 
     private Carrier getOptionalCarrier(Carrier carrier) {
@@ -111,7 +113,7 @@ public class ShipmentService {
             throw new IllegalArgumentException("Carrier ID is required");
         }
         return carrierRepository.findByIdAndIsActiveTrue(carrier.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active carrier not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active carrier not found"));
     }
 
     private void validateId(Long id) {
