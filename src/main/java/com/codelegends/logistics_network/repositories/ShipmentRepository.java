@@ -1,6 +1,7 @@
 package com.codelegends.logistics_network.repositories;
 
 import com.codelegends.logistics_network.Entities.Shipment;
+import com.codelegends.logistics_network.enums.ShipmentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,9 +20,9 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
     @Query("""
             SELECT s FROM Shipment s
             WHERE s.isActive = true
-              AND LOWER(s.status) = LOWER(:status)
+              AND s.status = :status
             """)
-    List<Shipment> findActiveByStatus(@Param("status") String status);
+    List<Shipment> findActiveByStatus(@Param("status") ShipmentStatus status);
 
     @Query("""
             SELECT s FROM Shipment s
