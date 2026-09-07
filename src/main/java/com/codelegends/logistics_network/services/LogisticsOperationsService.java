@@ -1,6 +1,7 @@
 package com.codelegends.logistics_network.services;
 
 import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+import com.codelegends.logistics_network.enums.*;
 
 import com.codelegends.logistics_network.Entities.*;
 import com.codelegends.logistics_network.dtos.operations.*;
@@ -16,9 +17,6 @@ import java.util.*;
 
 @Service
 public class LogisticsOperationsService {
-
-    private static final Set<String> TRACKING_STATUSES =
-            Set.of("PICKED_UP", "IN_TRANSIT", "DELIVERED");
 
     private final WarehouseRepository warehouseRepository;
     private final CustomerRepository customerRepository;
@@ -114,7 +112,7 @@ public class LogisticsOperationsService {
 
         Shipment shipment = new Shipment();
         shipment.setShipmentDate(request.getShipmentDate());
-        shipment.setStatus("PENDING");
+        shipment.setStatus(ShipmentStatus.PENDING);
         shipment.setTotalWeight(totalWeight);
         shipment.setWarehouse(warehouse);
         shipment.setCustomer(customer);
@@ -148,6 +146,7 @@ public class LogisticsOperationsService {
         }
         Carrier carrier = getCarrier(request.getCarrierId());
         shipment.setCarrier(carrier);
+        shipment.setStatus(ShipmentStatus.ASSIGNED);
         return shipmentRepository.save(shipment);
     }
 
@@ -165,10 +164,10 @@ public class LogisticsOperationsService {
         Vehicle vehicle = getVehicle(request.getVehicleId());
         Driver driver = getDriver(request.getDriverId());
 
-        if (!"AVAILABLE".equalsIgnoreCase(vehicle.getStatus())) {
+        if (vehicle.getStatus() != VehicleStatus.AVAILABLE) {
             throw new IllegalArgumentException("Vehicle is not available");
         }
-        if (!"AVAILABLE".equalsIgnoreCase(driver.getStatus())) {
+        if (driver.getStatus() != DriverStatus.AVAILABLE) {
             throw new IllegalArgumentException("Driver is not available");
         }
         if (!Objects.equals(
@@ -199,14 +198,14 @@ public class LogisticsOperationsService {
         route.setRouteDate(request.getRouteDate());
         route.setOrigin(request.getOrigin());
         route.setDestination(request.getDestination());
-        route.setStatus("PLANNED");
+        route.setStatus(RouteStatus.PLANNED);
         route.setVehicle(vehicle);
         route.setDriver(driver);
         route.setActive(true);
         route = routeRepository.save(route);
 
-        vehicle.setStatus("BUSY");
-        driver.setStatus("BUSY");
+        vehicle.setStatus(VehicleStatus.BUSY);
+        driver.setStatus(DriverStatus.BUSY);
         vehicleRepository.save(vehicle);
         driverRepository.save(driver);
 
@@ -243,7 +242,7 @@ public class LogisticsOperationsService {
         DeliveryStop stop = new DeliveryStop();
         stop.setSequence(request.getSequence());
         stop.setAddress(request.getAddress());
-        stop.setStatus("PENDING");
+        stop.setStatus(DeliveryStopStatus.PENDING);
         stop.setEta(request.getEta());
         stop.setRoute(route);
         stop.setShipment(shipment);
@@ -269,10 +268,10 @@ public class LogisticsOperationsService {
                     "Tracking event location is required");
         }
 
-        String status = normalizeStatus(request.getStatus());
-        if (!TRACKING_STATUSES.contains(status)) {
+        TrackingStatus status = request.getStatus();
+        if (status == null) {
             throw new IllegalArgumentException(
-                    "Tracking status must be PICKED_UP, IN_TRANSIT, or DELIVERED");
+                    "Tracking status is required");
         }
 
         TrackingEvent event = new TrackingEvent();
@@ -284,7 +283,7 @@ public class LogisticsOperationsService {
         event.setActive(true);
         event = trackingEventRepository.save(event);
 
-        shipment.setStatus(status);
+        shipment.setStatus(ShipmentStatus.valueOf(status.name()));
         shipmentRepository.save(shipment);
         return event;
     }
@@ -295,7 +294,7 @@ public class LogisticsOperationsService {
                 .findByIdAndIsActiveTrue(stopId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Active delivery stop not found"));
-        stop.setStatus("COMPLETED");
+        stop.setStatus(DeliveryStopStatus.COMPLETED);
         stop = deliveryStopRepository.save(stop);
 
         List<DeliveryStop> routeStops =
@@ -303,11 +302,11 @@ public class LogisticsOperationsService {
                         stop.getRoute().getId());
         boolean allCompleted = !routeStops.isEmpty()
                 && routeStops.stream().allMatch(item ->
-                "COMPLETED".equalsIgnoreCase(item.getStatus()));
+                item.getStatus() == DeliveryStopStatus.COMPLETED);
 
         if (allCompleted) {
             Route route = stop.getRoute();
-            route.setStatus("COMPLETED");
+            route.setStatus(RouteStatus.COMPLETED);
             routeRepository.save(route);
         }
         return stop;
@@ -318,7 +317,7 @@ public class LogisticsOperationsService {
             Long shipmentId,
             GenerateInvoiceRequest request) {
         Shipment shipment = getShipment(shipmentId);
-        if (!"DELIVERED".equalsIgnoreCase(shipment.getStatus())) {
+        if (shipment.getStatus() != ShipmentStatus.DELIVERED) {
             throw new IllegalArgumentException(
                     "Invoice can only be generated for a delivered shipment");
         }
@@ -338,7 +337,7 @@ public class LogisticsOperationsService {
 
         Invoice invoice = new Invoice();
         invoice.setAmount(request.getAmount());
-        invoice.setStatus("UNPAID");
+        invoice.setStatus(InvoiceStatus.UNPAID);
         invoice.setIssuedDate(request.getIssuedDate());
         invoice.setShipment(shipment);
         invoice.setCustomer(shipment.getCustomer());
@@ -353,8 +352,8 @@ public class LogisticsOperationsService {
     }
 
     @Transactional(readOnly = true)
-    public List<Shipment> getShipmentsByStatus(String status) {
-        if (isBlank(status)) {
+    public List<Shipment> getShipmentsByStatus(ShipmentStatus status) {
+        if (status == null) {
             throw new IllegalArgumentException("Shipment status is required");
         }
         return shipmentRepository.findActiveByStatus(status);
@@ -497,16 +496,6 @@ public class LogisticsOperationsService {
 
     private boolean isBlank(String value) {
         return value == null || value.isBlank();
-    }
-
-    private String normalizeStatus(String status) {
-        if (isBlank(status)) {
-            throw new IllegalArgumentException(
-                    "Tracking status is required");
-        }
-        return status.trim()
-                .toUpperCase(Locale.ROOT)
-                .replace(' ', '_');
     }
 
     private record PreparedLine(
