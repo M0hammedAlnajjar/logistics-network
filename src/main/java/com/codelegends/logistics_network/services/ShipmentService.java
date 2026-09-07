@@ -80,7 +80,7 @@ public class ShipmentService {
         if (shipment.getShipmentDate() == null) {
             throw new IllegalArgumentException("Shipment date is required");
         }
-        if (shipment.getStatus() == null || shipment.getStatus().isBlank()) {
+        if (shipment.getStatus() == null) {
             throw new IllegalArgumentException("Shipment status is required");
         }
         if (shipment.getTotalWeight() == null
