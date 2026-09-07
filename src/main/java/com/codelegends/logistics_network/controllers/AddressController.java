@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.Address;
+import com.codelegends.logistics_network.dtos.AddressDTO;
 import com.codelegends.logistics_network.services.AddressService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class AddressController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Address create(@Valid @RequestBody Address address) {
-        return addressService.createAddress(address);
+    public AddressDTO create(@Valid @RequestBody AddressDTO addressDTO) {
+        return AddressDTO.convertToDTO(addressService.createAddress(addressDTO.toEntity()));
     }
 
     @GetMapping
-    public List<Address> getAll() {
-        return addressService.getAllAddresses();
+    public List<AddressDTO> getAll() {
+        return AddressDTO.convertToDTO(addressService.getAllAddresses());
     }
 
     @GetMapping("/{id}")
-    public Address getById(@PathVariable Long id) {
-        return addressService.getAddressById(id);
+    public AddressDTO getById(@PathVariable Long id) {
+        return AddressDTO.convertToDTO(addressService.getAddressById(id));
     }
 
     @PutMapping("/{id}")
-    public Address update(
+    public AddressDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody Address address) {
-        return addressService.updateAddress(id, address);
+            @Valid @RequestBody AddressDTO addressDTO) {
+        return AddressDTO.convertToDTO(
+                addressService.updateAddress(id, addressDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
