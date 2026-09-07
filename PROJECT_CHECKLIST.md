@@ -52,6 +52,7 @@
 - [x] Cyclic JSON protection added
 - [x] Hibernate schema generated locally
 - [x] Add a screenshot of the generated schema to the repository
+- [x] ERD generated from MySQL Workbench
 
 ## Phase 2 - Repositories, Services, and CRUD
 
@@ -146,6 +147,7 @@
 - [x] Four Postman collections
 - [x] Debugging log
 - [x] Database schema screenshot: [docs/database-schema.png](docs/database-schema.png)
+- [x] ERD: [docs/logistics-network-erd.png](docs/logistics-network-erd.png)
 - [ ] Evidence that all Postman collections pass
 - [x] Clean Maven build: [docs/maven-build-success.png](docs/maven-build-success.png)
 - [ ] Credential-security actions completed
