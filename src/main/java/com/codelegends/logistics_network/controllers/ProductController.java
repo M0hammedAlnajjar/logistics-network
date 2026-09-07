@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.Product;
+import com.codelegends.logistics_network.dtos.ProductDTO;
 import com.codelegends.logistics_network.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Product create(@Valid @RequestBody Product product) {
-        return productService.createProduct(product);
+    public ProductDTO create(@Valid @RequestBody ProductDTO productDTO) {
+        return ProductDTO.convertToDTO(productService.createProduct(productDTO.toEntity()));
     }
 
     @GetMapping
-    public List<Product> getAll() {
-        return productService.getAllProducts();
+    public List<ProductDTO> getAll() {
+        return ProductDTO.convertToDTO(productService.getAllProducts());
     }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable Long id) {
-        return productService.getProductById(id);
+    public ProductDTO getById(@PathVariable Long id) {
+        return ProductDTO.convertToDTO(productService.getProductById(id));
     }
 
     @PutMapping("/{id}")
-    public Product update(
+    public ProductDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody Product product) {
-        return productService.updateProduct(id, product);
+            @Valid @RequestBody ProductDTO productDTO) {
+        return ProductDTO.convertToDTO(
+                productService.updateProduct(id, productDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
