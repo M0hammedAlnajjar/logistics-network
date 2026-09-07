@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.DeliveryStop;
 import com.codelegends.logistics_network.Entities.Route;
 import com.codelegends.logistics_network.Entities.Shipment;
@@ -42,7 +44,7 @@ public class DeliveryStopService {
     public DeliveryStop getDeliveryStopById(Long id) {
         validateId(id);
         return deliveryStopRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active delivery stop not found with ID: " + id));
     }
 
@@ -87,7 +89,7 @@ public class DeliveryStopService {
             throw new IllegalArgumentException("Route ID is required");
         }
         return routeRepository.findByIdAndIsActiveTrue(route.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active route not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active route not found"));
     }
 
     private Shipment getShipment(Shipment shipment) {
@@ -95,7 +97,7 @@ public class DeliveryStopService {
             throw new IllegalArgumentException("Shipment ID is required");
         }
         return shipmentRepository.findByIdAndIsActiveTrue(shipment.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active shipment not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active shipment not found"));
     }
 
     private void validateId(Long id) {
