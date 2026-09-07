@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.ServiceZone;
+import com.codelegends.logistics_network.dtos.ServiceZoneDTO;
 import com.codelegends.logistics_network.services.ServiceZoneService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class ServiceZoneController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ServiceZone create(@Valid @RequestBody ServiceZone serviceZone) {
-        return serviceZoneService.createServiceZone(serviceZone);
+    public ServiceZoneDTO create(@Valid @RequestBody ServiceZoneDTO serviceZoneDTO) {
+        return ServiceZoneDTO.convertToDTO(serviceZoneService.createServiceZone(serviceZoneDTO.toEntity()));
     }
 
     @GetMapping
-    public List<ServiceZone> getAll() {
-        return serviceZoneService.getAllServiceZones();
+    public List<ServiceZoneDTO> getAll() {
+        return ServiceZoneDTO.convertToDTO(serviceZoneService.getAllServiceZones());
     }
 
     @GetMapping("/{id}")
-    public ServiceZone getById(@PathVariable Long id) {
-        return serviceZoneService.getServiceZoneById(id);
+    public ServiceZoneDTO getById(@PathVariable Long id) {
+        return ServiceZoneDTO.convertToDTO(serviceZoneService.getServiceZoneById(id));
     }
 
     @PutMapping("/{id}")
-    public ServiceZone update(
+    public ServiceZoneDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody ServiceZone serviceZone) {
-        return serviceZoneService.updateServiceZone(id, serviceZone);
+            @Valid @RequestBody ServiceZoneDTO serviceZoneDTO) {
+        return ServiceZoneDTO.convertToDTO(
+                serviceZoneService.updateServiceZone(id, serviceZoneDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
