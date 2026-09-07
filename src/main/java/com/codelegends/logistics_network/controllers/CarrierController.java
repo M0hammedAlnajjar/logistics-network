@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.Carrier;
+import com.codelegends.logistics_network.dtos.CarrierDTO;
 import com.codelegends.logistics_network.services.CarrierService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class CarrierController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Carrier create(@Valid @RequestBody Carrier carrier) {
-        return carrierService.createCarrier(carrier);
+    public CarrierDTO create(@Valid @RequestBody CarrierDTO carrierDTO) {
+        return CarrierDTO.convertToDTO(carrierService.createCarrier(carrierDTO.toEntity()));
     }
 
     @GetMapping
-    public List<Carrier> getAll() {
-        return carrierService.getAllCarriers();
+    public List<CarrierDTO> getAll() {
+        return CarrierDTO.convertToDTO(carrierService.getAllCarriers());
     }
 
     @GetMapping("/{id}")
-    public Carrier getById(@PathVariable Long id) {
-        return carrierService.getCarrierById(id);
+    public CarrierDTO getById(@PathVariable Long id) {
+        return CarrierDTO.convertToDTO(carrierService.getCarrierById(id));
     }
 
     @PutMapping("/{id}")
-    public Carrier update(
+    public CarrierDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody Carrier carrier) {
-        return carrierService.updateCarrier(id, carrier);
+            @Valid @RequestBody CarrierDTO carrierDTO) {
+        return CarrierDTO.convertToDTO(
+                carrierService.updateCarrier(id, carrierDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
