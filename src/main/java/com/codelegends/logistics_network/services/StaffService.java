@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.Staff;
 import com.codelegends.logistics_network.Entities.Warehouse;
 import com.codelegends.logistics_network.repositories.StaffRepository;
@@ -36,7 +38,7 @@ public class StaffService {
     public Staff getStaffById(Long id) {
         validateId(id);
         return staffRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active staff member not found with ID: " + id));
     }
 
@@ -76,7 +78,7 @@ public class StaffService {
             throw new IllegalArgumentException("Warehouse ID is required");
         }
         return warehouseRepository.findByIdAndIsActiveTrue(warehouse.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active warehouse not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active warehouse not found"));
     }
 
     private void validateId(Long id) {
