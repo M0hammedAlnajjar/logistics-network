@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.dtos;
 
+import com.codelegends.logistics_network.enums.ShipmentStatus;
+
 import com.codelegends.logistics_network.Entities.Carrier;
 import com.codelegends.logistics_network.Entities.Customer;
 import com.codelegends.logistics_network.Entities.Shipment;
@@ -29,9 +31,8 @@ public class ShipmentDTO {
     @NotNull(message = "Shipment date is required")
     private LocalDate shipmentDate;
 
-    @NotBlank(message = "Shipment status is required")
-    @Size(max = 50, message = "Shipment status must not exceed 50 characters")
-    private String status;
+    @NotNull(message = "Shipment status is required")
+    private ShipmentStatus status;
 
     @NotNull(message = "Total weight is required")
     @PositiveOrZero(message = "Total weight cannot be negative")
