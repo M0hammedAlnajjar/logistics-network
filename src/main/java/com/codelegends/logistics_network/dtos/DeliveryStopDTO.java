@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.dtos;
 
+import com.codelegends.logistics_network.enums.DeliveryStopStatus;
+
 import com.codelegends.logistics_network.Entities.DeliveryStop;
 import com.codelegends.logistics_network.Entities.Route;
 import com.codelegends.logistics_network.Entities.Shipment;
@@ -32,9 +34,8 @@ public class DeliveryStopDTO {
     @Size(max = 250, message = "Delivery stop address must not exceed 250 characters")
     private String address;
 
-    @NotBlank(message = "Delivery stop status is required")
-    @Size(max = 50, message = "Delivery stop status must not exceed 50 characters")
-    private String status;
+    @NotNull(message = "Delivery stop status is required")
+    private DeliveryStopStatus status;
 
     @NotNull(message = "Delivery stop ETA is required")
     @FutureOrPresent(message = "Delivery stop ETA cannot be in the past")
