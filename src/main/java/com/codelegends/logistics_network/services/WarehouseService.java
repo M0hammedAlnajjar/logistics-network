@@ -78,4 +78,10 @@ public class WarehouseService {
 
         return warehouseRepository.save(warehouse);
     }
+
+    public void softDeleteWarehouse(Long id) {
+        Warehouse warehouse = getWarehouseById(id);
+        warehouse.setActive(false);
+        warehouseRepository.save(warehouse);
+    }
 }
