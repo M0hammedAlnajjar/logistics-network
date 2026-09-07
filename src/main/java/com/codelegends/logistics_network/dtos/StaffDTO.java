@@ -2,6 +2,10 @@ package com.codelegends.logistics_network.dtos;
 
 import com.codelegends.logistics_network.Entities.Staff;
 import com.codelegends.logistics_network.Entities.Warehouse;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,29 +20,34 @@ import java.util.List;
 public class StaffDTO {
 
     private Long id;
+
+    @NotBlank(message = "Staff name is required")
+    @Size(max = 100, message = "Staff name must not exceed 100 characters")
     private String name;
+
+    @NotBlank(message = "Staff role is required")
+    @Size(max = 50, message = "Staff role must not exceed 50 characters")
     private String role;
+
+    @NotBlank(message = "Staff phone number is required")
+    @Size(max = 20, message = "Staff phone number must not exceed 20 characters")
     private String phoneNumber;
+
+    @NotNull(message = "Warehouse ID is required")
+    @Positive(message = "Warehouse ID must be greater than zero")
     private Long warehouseId;
 
     public static StaffDTO convertToDTO(Staff entity) {
-        if (entity == null) {
-            return null;
-        }
-        return StaffDTO.builder()
-                .id(entity.getId())
-                .name(entity.getName())
-                .role(entity.getRole())
-                .phoneNumber(entity.getPhoneNumber())
+        if (entity == null) return null;
+        return StaffDTO.builder().id(entity.getId()).name(entity.getName())
+                .role(entity.getRole()).phoneNumber(entity.getPhoneNumber())
                 .warehouseId(entity.getWarehouse() == null ? null : entity.getWarehouse().getId())
                 .build();
     }
 
     public static List<StaffDTO> convertToDTO(List<Staff> entities) {
-        if (entities == null) {
-            return List.of();
-        }
-        return entities.stream().map(StaffDTO::convertToDTO).toList();
+        return entities == null ? List.of()
+                : entities.stream().map(StaffDTO::convertToDTO).toList();
     }
 
     public Staff toEntity() {
