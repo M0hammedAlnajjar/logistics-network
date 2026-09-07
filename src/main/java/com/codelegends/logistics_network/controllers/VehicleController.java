@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.Vehicle;
+import com.codelegends.logistics_network.dtos.VehicleDTO;
 import com.codelegends.logistics_network.services.VehicleService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class VehicleController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Vehicle create(@Valid @RequestBody Vehicle vehicle) {
-        return vehicleService.createVehicle(vehicle);
+    public VehicleDTO create(@Valid @RequestBody VehicleDTO vehicleDTO) {
+        return VehicleDTO.convertToDTO(vehicleService.createVehicle(vehicleDTO.toEntity()));
     }
 
     @GetMapping
-    public List<Vehicle> getAll() {
-        return vehicleService.getAllVehicles();
+    public List<VehicleDTO> getAll() {
+        return VehicleDTO.convertToDTO(vehicleService.getAllVehicles());
     }
 
     @GetMapping("/{id}")
-    public Vehicle getById(@PathVariable Long id) {
-        return vehicleService.getVehicleById(id);
+    public VehicleDTO getById(@PathVariable Long id) {
+        return VehicleDTO.convertToDTO(vehicleService.getVehicleById(id));
     }
 
     @PutMapping("/{id}")
-    public Vehicle update(
+    public VehicleDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody Vehicle vehicle) {
-        return vehicleService.updateVehicle(id, vehicle);
+            @Valid @RequestBody VehicleDTO vehicleDTO) {
+        return VehicleDTO.convertToDTO(
+                vehicleService.updateVehicle(id, vehicleDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
