@@ -11,4 +11,7 @@ public class Warehouse extends BaseClass {
 
     @Column(nullable = false, length = 150)
     private String location;
+
+    @Column(nullable = false)
+    private Integer capacity;
 }
