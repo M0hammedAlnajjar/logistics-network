@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.Invoice;
+import com.codelegends.logistics_network.dtos.InvoiceDTO;
 import com.codelegends.logistics_network.services.InvoiceService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class InvoiceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Invoice create(@Valid @RequestBody Invoice invoice) {
-        return invoiceService.createInvoice(invoice);
+    public InvoiceDTO create(@Valid @RequestBody InvoiceDTO invoiceDTO) {
+        return InvoiceDTO.convertToDTO(invoiceService.createInvoice(invoiceDTO.toEntity()));
     }
 
     @GetMapping
-    public List<Invoice> getAll() {
-        return invoiceService.getAllInvoices();
+    public List<InvoiceDTO> getAll() {
+        return InvoiceDTO.convertToDTO(invoiceService.getAllInvoices());
     }
 
     @GetMapping("/{id}")
-    public Invoice getById(@PathVariable Long id) {
-        return invoiceService.getInvoiceById(id);
+    public InvoiceDTO getById(@PathVariable Long id) {
+        return InvoiceDTO.convertToDTO(invoiceService.getInvoiceById(id));
     }
 
     @PutMapping("/{id}")
-    public Invoice update(
+    public InvoiceDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody Invoice invoice) {
-        return invoiceService.updateInvoice(id, invoice);
+            @Valid @RequestBody InvoiceDTO invoiceDTO) {
+        return InvoiceDTO.convertToDTO(
+                invoiceService.updateInvoice(id, invoiceDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
