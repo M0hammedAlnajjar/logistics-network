@@ -1,0 +1,42 @@
+LOGISTICS NETWORK - DEBUGGING LOG
+=====================================
+
+1. Wrong Warehouse endpoint
+HTTP status: 405 Method Not Allowed
+Cause: The request used POST /api/warehouses/reports, but no POST mapping exists for /reports.
+Fix: Changed the request to POST /api/warehouses.
+
+2. Maven parent dependency could not be resolved in the remote workspace
+HTTP status: Not applicable
+Cause: The workspace could not resolve repo.maven.apache.org, so Spring Boot parent 4.1.1 could not be downloaded.
+Fix: Run Maven from a network-enabled local environment. No application code change was required.
+
+3. Invalid DTO field values
+HTTP status: 400 Bad Request
+Cause: Blank, null, oversized, negative, or incorrectly formatted request fields.
+Fix: Added Jakarta Validation constraints to all request DTOs and handled MethodArgumentNotValidException globally.
+
+4. Missing or soft-deleted resource
+HTTP status: 404 Not Found
+Cause: The requested ID does not exist or its isActive value is false.
+Fix: Added ResourceNotFoundException and used active-only repository queries.
+
+5. Invalid business operation
+HTTP status: 400 Bad Request
+Cause: Out-of-stock items, unavailable drivers or vehicles, vehicle over-capacity, duplicate stop sequence, or invoice creation before delivery.
+Fix: Added service-level business validation and handled IllegalArgumentException globally.
+
+6. Malformed JSON or invalid request parameter
+HTTP status: 400 Bad Request
+Cause: Invalid JSON syntax, missing query parameters, or incorrect parameter types.
+Fix: Added handlers for HttpMessageNotReadableException, MissingServletRequestParameterException, and MethodArgumentTypeMismatchException.
+
+7. Database constraint violation
+HTTP status: 400 Bad Request
+Cause: A unique, foreign-key, or other database constraint was violated.
+Fix: Added a DataIntegrityViolationException handler that returns the standard ErrorResponse.
+
+8. Cyclic JSON relationships
+HTTP status: 500 Internal Server Error before prevention
+Cause: Bidirectional entity relationships can repeatedly serialize parent and child objects.
+Fix: Added @JsonIgnore to inverse relationship collections and changed controller responses to DTOs containing relationship IDs.
