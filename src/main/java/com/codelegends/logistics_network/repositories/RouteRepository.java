@@ -31,7 +31,7 @@ public interface RouteRepository extends JpaRepository<Route, Long> {
             SELECT COUNT(r) FROM Route r
             WHERE r.isActive = true
               AND r.vehicle.carrier.id = :carrierId
-              AND LOWER(r.status) <> 'completed'
+              AND r.status <> com.codelegends.logistics_network.enums.RouteStatus.COMPLETED
             """)
     long countActiveRoutesByCarrierId(
             @Param("carrierId") Long carrierId);
