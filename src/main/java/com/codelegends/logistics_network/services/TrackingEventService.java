@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.Shipment;
 import com.codelegends.logistics_network.Entities.TrackingEvent;
 import com.codelegends.logistics_network.repositories.ShipmentRepository;
@@ -36,7 +38,7 @@ public class TrackingEventService {
     public TrackingEvent getTrackingEventById(Long id) {
         validateId(id);
         return trackingEventRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active tracking event not found with ID: " + id));
     }
 
@@ -77,7 +79,7 @@ public class TrackingEventService {
             throw new IllegalArgumentException("Shipment ID is required");
         }
         return shipmentRepository.findByIdAndIsActiveTrue(shipment.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active shipment not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active shipment not found"));
     }
 
     private void validateId(Long id) {
