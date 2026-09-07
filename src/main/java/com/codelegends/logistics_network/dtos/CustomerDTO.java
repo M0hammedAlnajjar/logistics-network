@@ -1,6 +1,9 @@
 package com.codelegends.logistics_network.dtos;
 
 import com.codelegends.logistics_network.Entities.Customer;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,29 +18,34 @@ import java.util.List;
 public class CustomerDTO {
 
     private Long id;
+
+    @NotBlank(message = "Customer name is required")
+    @Size(max = 100, message = "Customer name must not exceed 100 characters")
     private String name;
+
+    @NotBlank(message = "Customer email is required")
+    @Email(message = "Customer email must be valid")
+    @Size(max = 150, message = "Customer email must not exceed 150 characters")
     private String email;
+
+    @NotBlank(message = "Customer phone number is required")
+    @Size(max = 20, message = "Customer phone number must not exceed 20 characters")
     private String phoneNumber;
+
+    @NotBlank(message = "Customer type is required")
+    @Size(max = 50, message = "Customer type must not exceed 50 characters")
     private String type;
 
     public static CustomerDTO convertToDTO(Customer entity) {
-        if (entity == null) {
-            return null;
-        }
-        return CustomerDTO.builder()
-                .id(entity.getId())
-                .name(entity.getName())
-                .email(entity.getEmail())
-                .phoneNumber(entity.getPhoneNumber())
-                .type(entity.getType())
-                .build();
+        if (entity == null) return null;
+        return CustomerDTO.builder().id(entity.getId()).name(entity.getName())
+                .email(entity.getEmail()).phoneNumber(entity.getPhoneNumber())
+                .type(entity.getType()).build();
     }
 
     public static List<CustomerDTO> convertToDTO(List<Customer> entities) {
-        if (entities == null) {
-            return List.of();
-        }
-        return entities.stream().map(CustomerDTO::convertToDTO).toList();
+        return entities == null ? List.of()
+                : entities.stream().map(CustomerDTO::convertToDTO).toList();
     }
 
     public Customer toEntity() {
