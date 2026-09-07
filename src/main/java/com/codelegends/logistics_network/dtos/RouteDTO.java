@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.dtos;
 
+import com.codelegends.logistics_network.enums.RouteStatus;
+
 import com.codelegends.logistics_network.Entities.Driver;
 import com.codelegends.logistics_network.Entities.Route;
 import com.codelegends.logistics_network.Entities.Vehicle;
@@ -36,9 +38,8 @@ public class RouteDTO {
     @Size(max = 150, message = "Route destination must not exceed 150 characters")
     private String destination;
 
-    @NotBlank(message = "Route status is required")
-    @Size(max = 50, message = "Route status must not exceed 50 characters")
-    private String status;
+    @NotNull(message = "Route status is required")
+    private RouteStatus status;
 
     @NotNull(message = "Vehicle ID is required")
     @Positive(message = "Vehicle ID must be greater than zero")
