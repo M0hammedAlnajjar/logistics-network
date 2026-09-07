@@ -16,4 +16,7 @@ public class Product extends BaseClass {
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal weightKg;
+
+    @Column(nullable = false, length = 100)
+    private String category;
 }
