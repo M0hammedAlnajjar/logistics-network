@@ -2,6 +2,10 @@ package com.codelegends.logistics_network.dtos;
 
 import com.codelegends.logistics_network.Entities.Carrier;
 import com.codelegends.logistics_network.Entities.Vehicle;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,31 +21,39 @@ import java.util.List;
 public class VehicleDTO {
 
     private Long id;
+
+    @NotBlank(message = "Vehicle plate number is required")
+    @Size(max = 30, message = "Vehicle plate number must not exceed 30 characters")
     private String plateNumber;
+
+    @NotBlank(message = "Vehicle type is required")
+    @Size(max = 50, message = "Vehicle type must not exceed 50 characters")
     private String type;
+
+    @NotNull(message = "Vehicle capacity is required")
+    @Positive(message = "Vehicle capacity must be greater than zero")
     private BigDecimal capacityKg;
+
+    @NotBlank(message = "Vehicle status is required")
+    @Size(max = 50, message = "Vehicle status must not exceed 50 characters")
     private String status;
+
+    @NotNull(message = "Carrier ID is required")
+    @Positive(message = "Carrier ID must be greater than zero")
     private Long carrierId;
 
     public static VehicleDTO convertToDTO(Vehicle entity) {
-        if (entity == null) {
-            return null;
-        }
-        return VehicleDTO.builder()
-                .id(entity.getId())
-                .plateNumber(entity.getPlateNumber())
-                .type(entity.getType())
-                .capacityKg(entity.getCapacityKg())
-                .status(entity.getStatus())
+        if (entity == null) return null;
+        return VehicleDTO.builder().id(entity.getId())
+                .plateNumber(entity.getPlateNumber()).type(entity.getType())
+                .capacityKg(entity.getCapacityKg()).status(entity.getStatus())
                 .carrierId(entity.getCarrier() == null ? null : entity.getCarrier().getId())
                 .build();
     }
 
     public static List<VehicleDTO> convertToDTO(List<Vehicle> entities) {
-        if (entities == null) {
-            return List.of();
-        }
-        return entities.stream().map(VehicleDTO::convertToDTO).toList();
+        return entities == null ? List.of()
+                : entities.stream().map(VehicleDTO::convertToDTO).toList();
     }
 
     public Vehicle toEntity() {
