@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.Warehouse;
 import com.codelegends.logistics_network.repositories.WarehouseRepository;
 import org.springframework.stereotype.Service;
@@ -48,7 +50,7 @@ public class WarehouseService {
         }
 
         return warehouseRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active warehouse not found with ID: " + id
                 ));
     }
