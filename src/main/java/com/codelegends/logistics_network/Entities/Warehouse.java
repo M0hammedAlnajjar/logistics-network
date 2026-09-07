@@ -8,4 +8,7 @@ public class Warehouse extends BaseClass {
 
     @Column(nullable = false, length = 100)
     private String name;
+
+    @Column(nullable = false, length = 150)
+    private String location;
 }
