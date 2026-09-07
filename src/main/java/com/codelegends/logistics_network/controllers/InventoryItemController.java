@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.InventoryItem;
+import com.codelegends.logistics_network.dtos.InventoryItemDTO;
 import com.codelegends.logistics_network.services.InventoryItemService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class InventoryItemController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public InventoryItem create(@Valid @RequestBody InventoryItem inventoryItem) {
-        return inventoryItemService.createInventoryItem(inventoryItem);
+    public InventoryItemDTO create(@Valid @RequestBody InventoryItemDTO inventoryItemDTO) {
+        return InventoryItemDTO.convertToDTO(inventoryItemService.createInventoryItem(inventoryItemDTO.toEntity()));
     }
 
     @GetMapping
-    public List<InventoryItem> getAll() {
-        return inventoryItemService.getAllInventoryItems();
+    public List<InventoryItemDTO> getAll() {
+        return InventoryItemDTO.convertToDTO(inventoryItemService.getAllInventoryItems());
     }
 
     @GetMapping("/{id}")
-    public InventoryItem getById(@PathVariable Long id) {
-        return inventoryItemService.getInventoryItemById(id);
+    public InventoryItemDTO getById(@PathVariable Long id) {
+        return InventoryItemDTO.convertToDTO(inventoryItemService.getInventoryItemById(id));
     }
 
     @PutMapping("/{id}")
-    public InventoryItem update(
+    public InventoryItemDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody InventoryItem inventoryItem) {
-        return inventoryItemService.updateInventoryItem(id, inventoryItem);
+            @Valid @RequestBody InventoryItemDTO inventoryItemDTO) {
+        return InventoryItemDTO.convertToDTO(
+                inventoryItemService.updateInventoryItem(id, inventoryItemDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
