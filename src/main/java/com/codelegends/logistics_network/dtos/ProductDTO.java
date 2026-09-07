@@ -1,6 +1,10 @@
 package com.codelegends.logistics_network.dtos;
 
 import com.codelegends.logistics_network.Entities.Product;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,29 +20,33 @@ import java.util.List;
 public class ProductDTO {
 
     private Long id;
+
+    @NotBlank(message = "Product name is required")
+    @Size(max = 100, message = "Product name must not exceed 100 characters")
     private String name;
+
+    @NotBlank(message = "Product SKU is required")
+    @Size(max = 50, message = "Product SKU must not exceed 50 characters")
     private String sku;
+
+    @NotNull(message = "Product weight is required")
+    @Positive(message = "Product weight must be greater than zero")
     private BigDecimal weightKg;
+
+    @NotBlank(message = "Product category is required")
+    @Size(max = 100, message = "Product category must not exceed 100 characters")
     private String category;
 
     public static ProductDTO convertToDTO(Product entity) {
-        if (entity == null) {
-            return null;
-        }
-        return ProductDTO.builder()
-                .id(entity.getId())
-                .name(entity.getName())
-                .sku(entity.getSku())
-                .weightKg(entity.getWeightKg())
-                .category(entity.getCategory())
-                .build();
+        if (entity == null) return null;
+        return ProductDTO.builder().id(entity.getId()).name(entity.getName())
+                .sku(entity.getSku()).weightKg(entity.getWeightKg())
+                .category(entity.getCategory()).build();
     }
 
     public static List<ProductDTO> convertToDTO(List<Product> entities) {
-        if (entities == null) {
-            return List.of();
-        }
-        return entities.stream().map(ProductDTO::convertToDTO).toList();
+        return entities == null ? List.of()
+                : entities.stream().map(ProductDTO::convertToDTO).toList();
     }
 
     public Product toEntity() {
