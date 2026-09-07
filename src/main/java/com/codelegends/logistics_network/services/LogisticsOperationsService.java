@@ -2,7 +2,7 @@ package com.codelegends.logistics_network.services;
 
 import com.codelegends.logistics_network.Entities.*;
 import com.codelegends.logistics_network.dtos.operations.*;
-import com.codeleg Echtends.logistics_network.dtos.stats.CarrierStatsDTO;
+import com.codelegends.logistics_network.dtos.stats.CarrierStatsDTO;
 import com.codelegends.logistics_network.dtos.stats.CustomerStatsDTO;
 import com.codelegends.logistics_network.dtos.stats.WarehouseStatsDTO;
 import com.codelegends.logistics_network.repositories.*;
