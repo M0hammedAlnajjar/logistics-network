@@ -1,8 +1,12 @@
 package com.codelegends.logistics_network.Entities;
 
+import com.codelegends.logistics_network.enums.CustomerType;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,8 +28,9 @@ public class Customer extends BaseClass {
     @Column(nullable = false, length = 20)
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private String type;
+    private CustomerType type;
 
     @JsonIgnore
     @OneToMany(mappedBy = "customer")
