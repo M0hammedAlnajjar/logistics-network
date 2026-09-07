@@ -41,4 +41,15 @@ public class WarehouseService {
     public List<Warehouse> getAllWarehouses() {
         return warehouseRepository.findAllByIsActiveTrue();
     }
+
+    public Warehouse getWarehouseById(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Warehouse ID must be greater than zero");
+        }
+
+        return warehouseRepository.findByIdAndIsActiveTrue(id)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Active warehouse not found with ID: " + id
+                ));
+    }
 }
