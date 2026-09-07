@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.Shipment;
+import com.codelegends.logistics_network.dtos.ShipmentDTO;
 import com.codelegends.logistics_network.services.ShipmentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class ShipmentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Shipment create(@Valid @RequestBody Shipment shipment) {
-        return shipmentService.createShipment(shipment);
+    public ShipmentDTO create(@Valid @RequestBody ShipmentDTO shipmentDTO) {
+        return ShipmentDTO.convertToDTO(shipmentService.createShipment(shipmentDTO.toEntity()));
     }
 
     @GetMapping
-    public List<Shipment> getAll() {
-        return shipmentService.getAllShipments();
+    public List<ShipmentDTO> getAll() {
+        return ShipmentDTO.convertToDTO(shipmentService.getAllShipments());
     }
 
     @GetMapping("/{id}")
-    public Shipment getById(@PathVariable Long id) {
-        return shipmentService.getShipmentById(id);
+    public ShipmentDTO getById(@PathVariable Long id) {
+        return ShipmentDTO.convertToDTO(shipmentService.getShipmentById(id));
     }
 
     @PutMapping("/{id}")
-    public Shipment update(
+    public ShipmentDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody Shipment shipment) {
-        return shipmentService.updateShipment(id, shipment);
+            @Valid @RequestBody ShipmentDTO shipmentDTO) {
+        return ShipmentDTO.convertToDTO(
+                shipmentService.updateShipment(id, shipmentDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
