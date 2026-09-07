@@ -21,7 +21,7 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
             SELECT i FROM Invoice i
             WHERE i.isActive = true
               AND i.customer.id = :customerId
-              AND LOWER(i.status) = 'unpaid'
+              AND i.status = com.codelegends.logistics_network.enums.InvoiceStatus.UNPAID
             ORDER BY i.issuedDate DESC
             """)
     List<Invoice> findUnpaidByCustomerId(
