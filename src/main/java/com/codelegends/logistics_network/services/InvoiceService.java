@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.Customer;
 import com.codelegends.logistics_network.Entities.Invoice;
 import com.codelegends.logistics_network.Entities.Shipment;
@@ -43,7 +45,7 @@ public class InvoiceService {
     public Invoice getInvoiceById(Long id) {
         validateId(id);
         return invoiceRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active invoice not found with ID: " + id));
     }
 
@@ -85,7 +87,7 @@ public class InvoiceService {
             throw new IllegalArgumentException("Shipment ID is required");
         }
         return shipmentRepository.findByIdAndIsActiveTrue(shipment.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active shipment not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active shipment not found"));
     }
 
     private Customer getCustomer(Customer customer) {
@@ -93,7 +95,7 @@ public class InvoiceService {
             throw new IllegalArgumentException("Customer ID is required");
         }
         return customerRepository.findByIdAndIsActiveTrue(customer.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active customer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active customer not found"));
     }
 
     private void validateId(Long id) {
