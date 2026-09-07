@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.Carrier;
 import com.codelegends.logistics_network.Entities.Driver;
 import com.codelegends.logistics_network.repositories.CarrierRepository;
@@ -39,7 +41,7 @@ public class DriverService {
     public Driver getDriverById(Long id) {
         validateId(id);
         return driverRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active driver not found with ID: " + id));
     }
 
@@ -87,7 +89,7 @@ public class DriverService {
             throw new IllegalArgumentException("Carrier ID is required");
         }
         return carrierRepository.findByIdAndIsActiveTrue(carrier.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active carrier not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active carrier not found"));
     }
 
     private void validateId(Long id) {
