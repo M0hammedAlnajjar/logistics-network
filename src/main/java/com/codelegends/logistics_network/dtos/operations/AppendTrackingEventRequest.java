@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.dtos.operations;
 
+import com.codelegends.logistics_network.enums.TrackingStatus;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -25,9 +27,8 @@ public class AppendTrackingEventRequest {
     @Size(max = 150, message = "Tracking event location must not exceed 150 characters")
     private String location;
 
-    @NotBlank(message = "Tracking event status is required")
-    @Size(max = 50, message = "Tracking event status must not exceed 50 characters")
-    private String status;
+    @NotNull(message = "Tracking event status is required")
+    private TrackingStatus status;
 
     @Size(max = 500, message = "Tracking event note must not exceed 500 characters")
     private String note;
