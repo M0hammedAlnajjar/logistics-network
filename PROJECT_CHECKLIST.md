@@ -51,7 +51,7 @@
 - [x] Foreign-key relationships implemented
 - [x] Cyclic JSON protection added
 - [x] Hibernate schema generated locally
-- [ ] Add a screenshot of the generated schema to the repository
+- [x] Add a screenshot of the generated schema to the repository
 
 ## Phase 2 - Repositories, Services, and CRUD
 
@@ -145,7 +145,7 @@
 - [x] Exceptions package
 - [x] Four Postman collections
 - [x] Debugging log
-- [ ] Database schema screenshot
+- [x] Database schema screenshot: [docs/database-schema.png](docs/database-schema.png)
 - [ ] Evidence that all Postman collections pass
 - [ ] Clean with a clean Maven build in a network-enabled environment
 - [ ] Credential-security actions completed
@@ -164,6 +164,5 @@
 
 1. Rotate the MySQL password because it is present in a public Git repository.
 2. Replace the committed password with an environment variable.
-3. Add the MySQL Workbench schema screenshot.
-4. Run all Postman collections and save evidence of the results.
-5. Run a clean Maven build locally.
+3. Run all Postman collections and save evidence of the results.
+4. Run a clean Maven build locally.
