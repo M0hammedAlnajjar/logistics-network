@@ -18,7 +18,7 @@
 - [x] Debugging log is included
 - [x] Cyclic JSON relationships are protected
 - [x] Work is separated into frequent Git commits
-- [ ] Remove the database password from application.properties
+- [x] Remove the database password from application.properties
 - [ ] Rotate the exposed MySQL password
 - [ ] Consider removing the credential from Git history before final submission
 
@@ -147,7 +147,7 @@
 - [x] Debugging log
 - [x] Database schema screenshot: [docs/database-schema.png](docs/database-schema.png)
 - [ ] Evidence that all Postman collections pass
-- [ ] Clean with a clean Maven build in a network-enabled environment
+- [x] Clean Maven build: [docs/maven-build-success.png](docs/maven-build-success.png)
 - [ ] Credential-security actions completed
 
 ## Postman Request Counts
@@ -162,7 +162,6 @@
 
 ## Final Submission Blockers
 
-1. Rotate the MySQL password because it is present in a public Git repository.
-2. Replace the committed password with an environment variable.
-3. Run all Postman collections and save evidence of the results.
-4. Run a clean Maven build locally.
+1. Rotate the exposed MySQL password if this has not been completed yet.
+2. Consider removing the old credential from Git history before final submission.
+3. Run the Postman collections and save evidence of the results.
