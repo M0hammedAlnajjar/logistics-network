@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.Customer;
+import com.codelegends.logistics_network.dtos.CustomerDTO;
 import com.codelegends.logistics_network.services.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class CustomerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Customer create(@Valid @RequestBody Customer customer) {
-        return customerService.createCustomer(customer);
+    public CustomerDTO create(@Valid @RequestBody CustomerDTO customerDTO) {
+        return CustomerDTO.convertToDTO(customerService.createCustomer(customerDTO.toEntity()));
     }
 
     @GetMapping
-    public List<Customer> getAll() {
-        return customerService.getAllCustomers();
+    public List<CustomerDTO> getAll() {
+        return CustomerDTO.convertToDTO(customerService.getAllCustomers());
     }
 
     @GetMapping("/{id}")
-    public Customer getById(@PathVariable Long id) {
-        return customerService.getCustomerById(id);
+    public CustomerDTO getById(@PathVariable Long id) {
+        return CustomerDTO.convertToDTO(customerService.getCustomerById(id));
     }
 
     @PutMapping("/{id}")
-    public Customer update(
+    public CustomerDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody Customer customer) {
-        return customerService.updateCustomer(id, customer);
+            @Valid @RequestBody CustomerDTO customerDTO) {
+        return CustomerDTO.convertToDTO(
+                customerService.updateCustomer(id, customerDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
