@@ -4,6 +4,11 @@ import com.codelegends.logistics_network.Entities.Carrier;
 import com.codelegends.logistics_network.Entities.Customer;
 import com.codelegends.logistics_network.Entities.Shipment;
 import com.codelegends.logistics_network.Entities.Warehouse;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,21 +25,33 @@ import java.util.List;
 public class ShipmentDTO {
 
     private Long id;
+
+    @NotNull(message = "Shipment date is required")
     private LocalDate shipmentDate;
+
+    @NotBlank(message = "Shipment status is required")
+    @Size(max = 50, message = "Shipment status must not exceed 50 characters")
     private String status;
+
+    @NotNull(message = "Total weight is required")
+    @PositiveOrZero(message = "Total weight cannot be negative")
     private BigDecimal totalWeight;
+
+    @NotNull(message = "Warehouse ID is required")
+    @Positive(message = "Warehouse ID must be greater than zero")
     private Long warehouseId;
+
+    @NotNull(message = "Customer ID is required")
+    @Positive(message = "Customer ID must be greater than zero")
     private Long customerId;
+
+    @Positive(message = "Carrier ID must be greater than zero")
     private Long carrierId;
 
     public static ShipmentDTO convertToDTO(Shipment entity) {
-        if (entity == null) {
-            return null;
-        }
-        return ShipmentDTO.builder()
-                .id(entity.getId())
-                .shipmentDate(entity.getShipmentDate())
-                .status(entity.getStatus())
+        if (entity == null) return null;
+        return ShipmentDTO.builder().id(entity.getId())
+                .shipmentDate(entity.getShipmentDate()).status(entity.getStatus())
                 .totalWeight(entity.getTotalWeight())
                 .warehouseId(entity.getWarehouse() == null ? null : entity.getWarehouse().getId())
                 .customerId(entity.getCustomer() == null ? null : entity.getCustomer().getId())
@@ -43,10 +60,8 @@ public class ShipmentDTO {
     }
 
     public static List<ShipmentDTO> convertToDTO(List<Shipment> entities) {
-        if (entities == null) {
-            return List.of();
-        }
-        return entities.stream().map(ShipmentDTO::convertToDTO).toList();
+        return entities == null ? List.of()
+                : entities.stream().map(ShipmentDTO::convertToDTO).toList();
     }
 
     public Shipment toEntity() {
