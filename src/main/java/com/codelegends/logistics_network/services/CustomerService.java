@@ -70,7 +70,7 @@ public class CustomerService {
         if (customer.getPhoneNumber() == null || customer.getPhoneNumber().isBlank()) {
             throw new IllegalArgumentException("Customer phone number is required");
         }
-        if (customer.getType() == null || customer.getType().isBlank()) {
+        if (customer.getType() == null) {
             throw new IllegalArgumentException("Customer type is required");
         }
     }
