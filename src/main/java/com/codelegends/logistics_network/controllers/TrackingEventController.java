@@ -1,6 +1,6 @@
 package com.codelegends.logistics_network.controllers;
 
-import com.codelegends.logistics_network.Entities.TrackingEvent;
+import com.codelegends.logistics_network.dtos.TrackingEventDTO;
 import com.codelegends.logistics_network.services.TrackingEventService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,25 +20,27 @@ public class TrackingEventController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TrackingEvent create(@Valid @RequestBody TrackingEvent trackingEvent) {
-        return trackingEventService.createTrackingEvent(trackingEvent);
+    public TrackingEventDTO create(@Valid @RequestBody TrackingEventDTO trackingEventDTO) {
+        return TrackingEventDTO.convertToDTO(trackingEventService.createTrackingEvent(trackingEventDTO.toEntity()));
     }
 
     @GetMapping
-    public List<TrackingEvent> getAll() {
-        return trackingEventService.getAllTrackingEvents();
+    public List<TrackingEventDTO> getAll() {
+        return TrackingEventDTO.convertToDTO(trackingEventService.getAllTrackingEvents());
     }
 
     @GetMapping("/{id}")
-    public TrackingEvent getById(@PathVariable Long id) {
-        return trackingEventService.getTrackingEventById(id);
+    public TrackingEventDTO getById(@PathVariable Long id) {
+        return TrackingEventDTO.convertToDTO(trackingEventService.getTrackingEventById(id));
     }
 
     @PutMapping("/{id}")
-    public TrackingEvent update(
+    public TrackingEventDTO update(
             @PathVariable Long id,
-            @Valid @RequestBody TrackingEvent trackingEvent) {
-        return trackingEventService.updateTrackingEvent(id, trackingEvent);
+            @Valid @RequestBody TrackingEventDTO trackingEventDTO) {
+        return TrackingEventDTO.convertToDTO(
+                trackingEventService.updateTrackingEvent(id, trackingEventDTO.toEntity())
+        );
     }
 
     @DeleteMapping("/{id}")
