@@ -1,5 +1,7 @@
 package com.codelegends.logistics_network.services;
 
+import com.codelegends.logistics_network.exceptions.ResourceNotFoundException;
+
 import com.codelegends.logistics_network.Entities.Product;
 import com.codelegends.logistics_network.Entities.Shipment;
 import com.codelegends.logistics_network.Entities.ShipmentItem;
@@ -42,7 +44,7 @@ public class ShipmentItemService {
     public ShipmentItem getShipmentItemById(Long id) {
         validateId(id);
         return shipmentItemRepository.findByIdAndIsActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Active shipment item not found with ID: " + id));
     }
 
@@ -75,7 +77,7 @@ public class ShipmentItemService {
             throw new IllegalArgumentException("Shipment ID is required");
         }
         return shipmentRepository.findByIdAndIsActiveTrue(shipment.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active shipment not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active shipment not found"));
     }
 
     private Product getProduct(Product product) {
@@ -83,7 +85,7 @@ public class ShipmentItemService {
             throw new IllegalArgumentException("Product ID is required");
         }
         return productRepository.findByIdAndIsActiveTrue(product.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Active product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Active product not found"));
     }
 
     private void validateId(Long id) {
